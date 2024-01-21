@@ -61,3 +61,7 @@ Some minor documentation improvements. Fixed inaccuracies in the documentation.
 
 * Sixth version. Removed the module Phladiprelio.General.Datatype except readU2 function that moved to the Phladiprelio.General.Datatype3 module because the removed functionality in extended version is provided by the Phladiprelio.General.Datatype3 module. To find the removed functionality, please, refer to the versions up to 0.5.2.0. Fixed issue with the readSimple3 function for '=' after just one syllable. 
 
+## 0.7.0.0 -- 2024-01-21
+
+* Seventh version. Switched to more time efficient imlementation using Data.Sequence functionality from the containers package. Added it as a new (widely used in many cases) dependency. Some code and documentation improvements. Added readU2 to the export list of the Phladiprelio.General.Datatype3 module.
+

@@ -2,7 +2,7 @@ The draft scientific papers on prosody and the software that are based on the qu
 lines are easy to pronounce and read while others are not. They are in two languages by the 
 following links:
 
-[Чому деякі рядки легко вимовляти,а інші — ні,або Просодична неспрогнозованість як характеристика тексту](https://www.academia.edu/105067723/%D0%A7%D0%BE%D0%BC%D1%83_%D0%B4%D0%B5%D1%8F%D0%BA%D1%96_%D1%80%D1%8F%D0%B4%D0%BA%D0%B8_%D0%BB%D0%B5%D0%B3%D0%BA%D0%BE_%D0%B2%D0%B8%D0%BC%D0%BE%D0%B2%D0%BB%D1%8F%D1%82%D0%B8_%D0%B0_%D1%96%D0%BD%D1%88%D1%96_%D0%BD%D1%96_%D0%B0%D0%B1%D0%BE_%D0%BF%D1%80%D0%BE%D1%81%D0%BE%D0%B4%D0%B8%D1%87%D0%BD%D0%B0_%D0%BD%D0%B5%D1%81%D0%BF%D1%80%D0%BE%D0%B3%D0%BD%D0%BE%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D1%96%D1%81%D1%82%D1%8C_%D1%8F%D0%BA_%D1%85%D0%B0%D1%80%D0%B0%D0%BA%D1%82%D0%B5%D1%80%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0_%D1%82%D0%B5%D0%BA%D1%81%D1%82%D1%83)
+[Чому деякі рядки легко вимовляти,а інші — ні, або Просодична неспрогнозованість як характеристика тексту](https://www.academia.edu/105067723/%D0%A7%D0%BE%D0%BC%D1%83_%D0%B4%D0%B5%D1%8F%D0%BA%D1%96_%D1%80%D1%8F%D0%B4%D0%BA%D0%B8_%D0%BB%D0%B5%D0%B3%D0%BA%D0%BE_%D0%B2%D0%B8%D0%BC%D0%BE%D0%B2%D0%BB%D1%8F%D1%82%D0%B8_%D0%B0_%D1%96%D0%BD%D1%88%D1%96_%D0%BD%D1%96_%D0%B0%D0%B1%D0%BE_%D0%BF%D1%80%D0%BE%D1%81%D0%BE%D0%B4%D0%B8%D1%87%D0%BD%D0%B0_%D0%BD%D0%B5%D1%81%D0%BF%D1%80%D0%BE%D0%B3%D0%BD%D0%BE%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D1%96%D1%81%D1%82%D1%8C_%D1%8F%D0%BA_%D1%85%D0%B0%D1%80%D0%B0%D0%BA%D1%82%D0%B5%D1%80%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0_%D1%82%D0%B5%D0%BA%D1%81%D1%82%D1%83)
 
 [Why some lines are easy to pronounce and others are not, or prosodic unpredictability as a characteristic of text](https://www.academia.edu/105067761/Why_some_lines_are_easy_to_pronounce_and_others_are_not_or_prosodic_unpredictability_as_a_characteristic_of_text)
 
@@ -26,6 +26,8 @@ appreciation for André's Rieu support also celebrates the Day. In Ukraine this 
 important celebrations — Intercession of the Holy Theotokos (Pokrova), Cossacks' Day, Day of Defenders of Ukraine (especially relevant during the Russian war against Ukraine).
 
 On the 11/11/2023 there is St. Martin of Tours Day for Roman Catholics.
+
+On the 06/01/2024 there was Sophie's Kok, a sister of Emma Kok, 19th Birthday (she is 18). Therefore, the version 0.7.0.0 is additionally devoted also to her.
 
 All support is welcome, including donations for the needs of the Ukrainian army, IDPs and refugees. 
 
