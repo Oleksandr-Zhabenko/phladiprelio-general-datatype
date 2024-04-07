@@ -65,3 +65,7 @@ Some minor documentation improvements. Fixed inaccuracies in the documentation.
 
 * Seventh version. Switched to more time efficient imlementation using Data.Sequence functionality from the containers package. Added it as a new (widely used in many cases) dependency. Some code and documentation improvements. Added readU2 to the export list of the Phladiprelio.General.Datatype3 module.
 
+## 0.10.0.0 -- 2024-04-07
+
+* Tenth version. Switched to another model of computation with mostly Word8 instead of Double. Made a window of versions for the subtle updates of the versions prior to 0.10.0.0.
+

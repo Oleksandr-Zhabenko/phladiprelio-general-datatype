@@ -29,6 +29,10 @@ On the 11/11/2023 there is St. Martin of Tours Day for Roman Catholics.
 
 On the 06/01/2024 there was Sophie's Kok, a sister of Emma Kok, 19th Birthday (she is 18). Therefore, the version 0.7.0.0 is additionally devoted also to her.
 
+On the 12/03/2024 there was a Birthday of Emma Kok. She turned 16. Therefore, the version 0.10.0.0 is devoted i.e. tributed to her.
+
+Besides, you can support Ukrainian people in various forms. 
+
 All support is welcome, including donations for the needs of the Ukrainian army, IDPs and refugees. 
 
 If you would like to share some financial support with the Foundation Gastrostars, please, contact the mentioned foundation

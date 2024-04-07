@@ -1,3 +1,10 @@
+-- |
+-- Module      :  Phladiprelio.General.Datatype3 
+-- Copyright   :  (c) OleksandrZhabenko 2023-2024
+-- License     :  MIT
+-- Stability   :  Experimental
+-- Maintainer  :  oleksandr.zhabenko@yahoo.com
+
 {-# OPTIONS_GHC -funbox-strict-fields #-}
 {-# LANGUAGE NoImplicitPrelude, BangPatterns #-}
 
@@ -17,19 +24,23 @@ module Phladiprelio.General.Datatype3 (
 
 import GHC.Base
 import GHC.List
-import Data.List (groupBy)
+import GHC.Word
+import GHC.Real (floor,fromIntegral,(/)) 
+import GHC.Float (int2Double) 
+import Data.List (groupBy,find)
 import Data.Char (isDigit, isSpace,isLetter)
 import Text.Read (readMaybe)
 import Text.Show (Show(..))
-import GHC.Num ((*),(+))
+import GHC.Num ((*),(+),(-))
 import Data.Maybe (fromMaybe)
-import Data.Tuple (snd)
+import Data.Tuple (fst,snd)
 import qualified Data.Foldable as F (foldr) 
 import qualified Data.Sequence as S
+import ListQuantizer (round2GL) 
 
 -- | Is a way to read duration of the additional added time period into the line.
 readU2 :: String -> Double
-readU2 xs@(y:ys) = fromMaybe 1.0 (readMaybe (y:'.':(if null ys then "0" else ys))::Maybe Double)
+readU2 (y:ys) = fromMaybe 1.0 (readMaybe (y:'.':(if null ys then "0" else ys))::Maybe Double)
 readU2 _ = 1.0
 {-# INLINE readU2 #-}
 
@@ -74,61 +85,71 @@ basicSplit = filterReads . map reRead3 . splitL0
 readSimple3 
   :: (String -> Bool) -- ^ A special function to check whether the 'String' contains needed information. Must return 'True' for the 'String' that contains the needed for usual processment information, otherwise — 'False'.
   -> Double
-  -> (String -> [Double])
+  -> (String -> [Word8])
   -> S.Seq Read0 -- ^ Is should be obtained using 'basicSplit' function here.
-  -> [Double]
+  -> [Word8]
 readSimple3 p temp fConvA rs@(C xs S.:<| A x S.:<| ts) -- This branch is fixed in the version 0.6.0.0 because earlier it has an issue.
  | null qs = readSimple3 p temp fConvA ts
- | null q1 = xl1 : readSimple3 p xl1 fConvA ts
- | otherwise = q1 `mappend` (xl1 : readSimple3 p xl1 fConvA ts)
+ | null q1 = floor xl1 : readSimple3 p xl1 fConvA ts
+ | otherwise = q1 `mappend` (floor xl1 : readSimple3 p xl1 fConvA ts)
   where qs 
           | p xs = fConvA xs
           | otherwise = []
         (q1,q2s) = splitAtEnd 1 qs
         ql1 = head q2s
-        xl1=x*ql1
+        xl1=min (x*word8ToDouble ql1) 255.0
 readSimple3 p temp fConvA rs@(C xs S.:<| ys@(B x S.:<| ts)) = qs `mappend` qqs `mappend` readSimple3 p ql fConvA ws  
-  where (ks, ws) = S.spanl isB ys
-        qs 
+  where (!ks, ws) = S.spanl isB ys
+        !qs 
           | p xs = fConvA xs
           | otherwise = []
-        ql
+        !ql
           | null qs = 0.0
-          | otherwise = last qs
-        qqs = F.foldr (\(B k) js -> k * ql:js) [] ks
+          | otherwise = word8ToDouble . last $ qs
+        qqs = F.foldr (\(B k) js -> double2Word8 (k * ql):js) [] ks
 readSimple3 p temp fConvA rs@(B x S.:<| ts) = qqs `mappend` readSimple3 p temp fConvA ws 
   where (ks, ws) = S.spanl isB rs
-        qqs = F.foldr (\(B k) js -> k * temp:js) [] ks
+        qqs = F.foldr (\(B k) js -> double2Word8 (k * temp) : js) [] ks
 readSimple3 p temp fConvA (C xs S.:<| _) = qs
   where qs 
           | p xs = fConvA xs
           | otherwise = []
 readSimple3 _ _ _ _ = []
 
+-- | Is intended to 'floor' the values greater than 255.0 to 255::'Word8' and to be used for non-negative 'Double'.
+double2Word8 :: Double -> Word8
+double2Word8 = floor . min 255.0
+{-# INLINE double2Word8 #-}
+
+-- | Is done using intermediate 'Int' representation.
+word8ToDouble :: Word8 -> Double
+word8ToDouble = int2Double . fromIntegral
+{-# INLINE word8ToDouble #-}
+
 read3 
  :: (String -> Bool) -- ^ A special function to check whether the 'String' contains needed information. Must return 'True' for the 'String' that contains the needed for usual processment information, otherwise — 'False'.
  -> Double
- -> (String -> [Double])
+ -> (String -> [Word8])
  -> String 
- -> [Double]
-read3 p temp fConvA = filter (/= 0.0) . readSimple3 p temp fConvA . basicSplit
+ -> [Word8]
+read3 p temp fConvA = filter (/= 0) . readSimple3 p temp fConvA . basicSplit
 {-# INLINE read3 #-}
 
 splitAtEnd :: Int -> [a] -> ([a], [a])
-splitAtEnd n = (\(x,y,_,_) -> (y,x)) . foldr f v
- where v = ([],[],0,n)
-       f x (zs,ts,k,n)
-        | k < n = (x : zs,[],k + 1,n)
-        | otherwise = (zs,x : ts,k + 1,n)
+splitAtEnd n = (\(x,y,_) -> (y,x)) . foldr f v
+ where v = ([],[],0)
+       f x (zs,ts,k)
+        | k < n = (x : zs,[],k + 1)
+        | otherwise = (zs,x : ts,k + 1)
 
 -- | Is a specialized version of 'Data.InsertLeft.dropFromEndG' function variant from the @subG@ package. Is taken from there to
 -- reduce the dependencies. Is not intended to be exported at all.
 dropFromEnd :: Int -> [a] -> [a]
-dropFromEnd n = (\(xs,_,_) -> xs) . foldr f v
- where v = ([],0,n)
-       f x (zs,k,n)
-        | k < n = ([],k + 1,n)
-        | otherwise = (x : zs,k,n)
+dropFromEnd n = (\(xs,_) -> xs) . foldr f v
+ where v = ([],0)
+       f x (zs,k)
+        | k < n = ([],k + 1)
+        | otherwise = (x : zs,k)
 
 line2Strings 
  :: (String -> Bool) -- ^ A special function to check whether the 'String' contains needed information. Must return 'True' for the 'String' that contains the needed for usual processment information, otherwise — 'False'.
@@ -149,20 +170,20 @@ line2Strings _ _ _ = []
 -- | Is intended to be used in the "music" mode for PhLADiPreLiO.
 readEq4G 
  :: (String -> Bool) -- ^ A special function to check whether the 'String' contains needed information. Must return 'True' for the 'String' that contains the needed for usual processment information, otherwise — 'False'.
- -> (String -> [Double])
+ -> (String -> [Word8])
  -> (String -> [String])
  -> S.Seq Read0 -- ^ Is should be obtained using 'basicSplit' function here.
- -> [(String, Double)]
+ -> [(String, Word8)]
 readEq4G p fConvA gConvC xs = zip ks rs
    where ks = line2Strings p gConvC xs
-         rs = filter (/= 0.0) . readSimple3 p 1.0 fConvA $ xs
+         rs = filter (/= 0) . readSimple3 p 1.0 fConvA $ xs
 {-# INLINE readEq4G #-}
 
 readEq4
- :: (String -> [Double])
+ :: (String -> [Word8])
  -> (String -> [String])
  -> S.Seq Read0 -- ^ Is should be obtained using 'basicSplit' function here.
- -> [(String, Double)]
+ -> [(String, Word8)]
 readEq4 = readEq4G (not . null . filter (not . isSpace))
 {-# INLINE readEq4 #-}
 
@@ -171,4 +192,15 @@ showRead0AsInsert d@(A t) = '=':(filter (/= '.') . show $ t)
 showRead0AsInsert d@(B t) = '_':(filter (/= '.') . show $ t)
 showRead0AsInsert d@(C ts) = ts
 {-# INLINE showRead0AsInsert #-}
+
+-- | Is intended to be used to transform the earlier data for PhLADiPreLiO representations durations from 'Double' to 'Word8' values. It was used during the transition from the ukrainian-phonetics-basic-array-0.7.1.1 to ukrainian-phonetics-basic-array-0.10.0.0.
+zippedDouble2Word8 xs = map (\(t, u) -> (t,fromMaybe 15 . hh $ u)) xs 
+  where !h = snd . head $ xs
+        !lt = snd . last $ xs
+        !del = (lt - h)/14.0
+        !ys  = take 15 . iterate (+del) $ h
+        !zs = zip [1..15] ys
+        gg !u = fromMaybe lt . round2GL True (\_ _ -> EQ) ys $ u
+        hh !u = fmap fst . find ((== gg u) . snd) $ zs
+
 
