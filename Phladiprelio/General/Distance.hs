@@ -3,15 +3,15 @@
 module Phladiprelio.General.Distance where
 
 import GHC.Base
-import GHC.Real (Fractional(..),Real(..),gcd,quot,(/),fromIntegral)
+import GHC.Real (Integral,Fractional(..),Real(..),gcd,quot,(/),fromIntegral,toInteger)
 import GHC.Float (Floating(..),sqrt)
 import GHC.List
 import Data.List (replicate)
-import GHC.Num ((*),(-))
+import GHC.Num ((*),(-),subtract,abs)
 
--- | 'toEqLength' changes two given lists of non-negative 'Real' numbers into two lists of equal
+-- | 'toEqLength' changes two given lists into two lists of equal
 -- minimal lengths and also returs its new length and initial lengths of the lists given.
-toEqLength :: Real a => [a] -> [a] -> ([a],[a],Int,Int,Int)
+toEqLength :: [a] -> [a] -> ([a],[a],Int,Int,Int)
 toEqLength xs ys 
   | null xs = ([],[],0,0,0)
   | null ys = ([],[],0,0,0)
@@ -22,11 +22,11 @@ toEqLength xs ys
              ts = concatMap (replicate (ly `quot` dc)) $ xs
              vs = concatMap (replicate (lx `quot` dc)) $ ys
 
--- | 'toEqLengthL' changes two given lists of non-negative 'Real' numbers into two lists of equal
+-- | 'toEqLengthL' changes two given lists into two lists of equal
 -- minimal lengths and also returs its new length and initial lengths of the lists given. Is
 -- intended to be used when the length of the lists are known and given as the first and the second parameters
 -- here respectively.
-toEqLengthL :: Real a => Int -> Int -> [a] -> [a] -> ([a],[a],Int,Int,Int)
+toEqLengthL :: Int -> Int -> [a] -> [a] -> ([a],[a],Int,Int,Int)
 toEqLengthL lx ly xs ys 
   | lx == 0 = ([],[],0,0,0)
   | ly == 0 = ([],[],0,0,0)
@@ -34,6 +34,13 @@ toEqLengthL lx ly xs ys
        where dc = gcd lx ly
              ts = concatMap (replicate (ly `quot` dc)) $ xs
              vs = concatMap (replicate (lx `quot` dc)) $ ys
+
+-- | Is also a simplified distance between the lists. Intended to be used with 'Word8'.
+sumAbsDistNorm :: (Integral a) => [a] -> [a] -> a
+sumAbsDistNorm xs ys 
+ | lc == 0 = 0
+ | otherwise = fromIntegral $ sum (zipWith (\x y -> toInteger . abs . subtract x $ y) ts vs) `quot` fromIntegral lc
+     where (ts, vs, lc, lx, ly) = toEqLength xs ys 
 
 sumSqrDistNorm :: (Real a, Fractional a) => [a] -> [a] -> a
 sumSqrDistNorm xs ys 

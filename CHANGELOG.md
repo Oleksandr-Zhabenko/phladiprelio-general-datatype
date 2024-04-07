@@ -67,5 +67,5 @@ Some minor documentation improvements. Fixed inaccuracies in the documentation.
 
 ## 0.10.0.0 -- 2024-04-07
 
-* Tenth version. Switched to another model of computation with mostly Word8 instead of Double. Made a window of versions for the subtle updates of the versions prior to 0.10.0.0.
+* Tenth version. Switched to another model of computation with mostly Word8 instead of Double. Made a window of versions for the subtle updates of the versions prior to 0.10.0.0. Added a sumAbsDistNorm function.
 
