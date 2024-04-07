@@ -20,6 +20,7 @@ module Phladiprelio.General.Datatype3 (
    , read3
    , readEq4G 
    , readEq4 
+   , zippedDouble2Word8 
 ) where
 
 import GHC.Base
