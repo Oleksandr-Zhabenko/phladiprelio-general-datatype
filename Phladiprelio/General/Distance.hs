@@ -39,7 +39,7 @@ toEqLengthL lx ly xs ys
 sumAbsDistNorm :: (Integral a, Ord a) => [a] -> [a] -> a
 sumAbsDistNorm xs ys 
  | lc == 0 = 0
- | otherwise = fromIntegral $ sum (zipWith (\x y -> toInteger (if x > y then x-y else y-x)) ts vs) `quot` fromIntegral lc
+ | otherwise = fromIntegral . sum . zipWith (\x y -> toInteger (if x > y then x-y else y-x)) ts $ vs
      where (ts, vs, lc, lx, ly) = toEqLength xs ys 
 
 sumSqrDistNorm :: (Real a, Fractional a) => [a] -> [a] -> a

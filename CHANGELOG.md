@@ -73,3 +73,7 @@ Some minor documentation improvements. Fixed inaccuracies in the documentation.
 
 * Tenth version revised A. Fixed issue with sumAbsDistNorm function that leads to incorrect results in case of Bounded datatypes.
 
+## 0.10.1.0 -- 2024-04-08
+
+* Tenth version revised B. Removed the too demanding quoting in sumAbsDistNorm function.
+
