@@ -69,3 +69,7 @@ Some minor documentation improvements. Fixed inaccuracies in the documentation.
 
 * Tenth version. Switched to another model of computation with mostly Word8 instead of Double. Made a window of versions for the subtle updates of the versions prior to 0.10.0.0. Added a sumAbsDistNorm function.
 
+## 0.10.0.1 -- 2024-04-08
+
+* Tenth version revised A. Fixed issue with sumAbsDistNorm function that leads to incorrect results in case of Bounded datatypes.
+

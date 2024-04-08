@@ -36,10 +36,10 @@ toEqLengthL lx ly xs ys
              vs = concatMap (replicate (lx `quot` dc)) $ ys
 
 -- | Is also a simplified distance between the lists. Intended to be used with 'Word8'.
-sumAbsDistNorm :: (Integral a) => [a] -> [a] -> a
+sumAbsDistNorm :: (Integral a, Ord a) => [a] -> [a] -> a
 sumAbsDistNorm xs ys 
  | lc == 0 = 0
- | otherwise = fromIntegral $ sum (zipWith (\x y -> toInteger . abs . subtract x $ y) ts vs) `quot` fromIntegral lc
+ | otherwise = fromIntegral $ sum (zipWith (\x y -> toInteger (if x > y then x-y else y-x)) ts vs) `quot` fromIntegral lc
      where (ts, vs, lc, lx, ly) = toEqLength xs ys 
 
 sumSqrDistNorm :: (Real a, Fractional a) => [a] -> [a] -> a
